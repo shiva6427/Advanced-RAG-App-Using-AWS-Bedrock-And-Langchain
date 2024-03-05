@@ -3,11 +3,31 @@ import os
 import sys
 import boto3
 import streamlit as st
+from dotenv import load_dotenv
+
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 ## Titan Embeddings Model To generate Embedding
 
 from langchain_community.embeddings import BedrockEmbeddings
 from langchain.llms.bedrock import Bedrock
+
+
+# Initialize AWS clients with environment variables
+aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
+aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
+aws_default_region = os.getenv("AWS_DEFAULT_REGION")
+
+# Initialize AWS client
+bedrock = boto3.client(
+    service_name="bedrock-runtime",
+    aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key,
+    region_name=aws_default_region
+)
 
 ## Data Ingestion
 
@@ -51,36 +71,31 @@ def get_vector_store(docs):
 
 def get_claude_llm():
     ##create the Anthropic Model
-    llm=Bedrock(model_id="anthropic.claude-instant-v1",client=bedrock,
-                model_kwargs={'maxTokens':512})
+    llm=Bedrock(model_id="anthropic.claude-instant-v1",client=bedrock)
     
     return llm
 
 def get_llama2_llm():
     ##create the llama Model
-    llm=Bedrock(model_id="meta.llama2-70b-chat-v1",client=bedrock,
-                model_kwargs={'max_gen_len':512})
+    llm=Bedrock(model_id="meta.llama2-70b-chat-v1",client=bedrock)
     
     return llm
 
 def get_titan_llm():
     ##create the titan Model
-    llm=Bedrock(model_id="amazon.titan-text-lite-v1",client=bedrock,
-                model_kwargs={'max_gen_len':512})
+    llm=Bedrock(model_id="amazon.titan-text-lite-v1",client=bedrock)
     
     return llm
 
 def get_cohere_llm():
     ##create the cohere Model
-    llm=Bedrock(model_id="cohere.command-light-text-v14",client=bedrock,
-                model_kwargs={'max_gen_len':512})
+    llm=Bedrock(model_id="cohere.command-light-text-v14",client=bedrock)
     
     return llm
 
 def get_jurassic_llm():
     ##create the jurassic Model
-    llm=Bedrock(model_id="ai21.j2-mid-v1",client=bedrock,
-                model_kwargs={'max_gen_len':512})
+    llm=Bedrock(model_id="ai21.j2-mid-v1",client=bedrock)
     
     return llm
 
