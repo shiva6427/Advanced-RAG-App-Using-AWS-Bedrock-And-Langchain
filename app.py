@@ -1,14 +1,10 @@
-import json
 import os
-import sys
 import boto3
 import streamlit as st
 from dotenv import load_dotenv
 
-
 # Load environment variables from .env file
 load_dotenv()
-
 
 ## Titan Embeddings Model To generate Embedding
 
@@ -135,6 +131,9 @@ def main():
     st.header("📚🤖💬 Welcome to GeniePDF Chat")
     st.subheader("An Interactive PDF Companion powered by AWS Bedrock 🚀")
     user_question = st.text_input("Ask any Question from the PDF File")
+
+    # View PDF button
+    st.markdown("[View PDF](https://www.researchgate.net/publication/370653602_Generative_AI)")
 
     with st.sidebar:
         st.title("Update Vector Store:")
